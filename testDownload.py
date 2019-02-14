@@ -8,4 +8,4 @@
 
 import wget
 url="https://weather.gc.ca/data/satellite/goes_wcan_visible_100.jpg"
-wget.download(url)
+wget.download(url,"temp")

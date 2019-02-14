@@ -1,12 +1,10 @@
 import os
-
 import sys
-
 #import six.moves.urllib.request
-
+import wget
 import time
 import datetime
-
+import wget
 
 #Constants:
 
@@ -41,7 +39,7 @@ bufferName="bufferWeb.txt"
 
 
 
-outputPath='D:\\cloud\\GitHub\\logSatelliteWeather\SATWEATHER'
+outputPath='/home/gza060625/Desktop/AU/logSatelliteWeather/SATWEATHER'
 siteName="GOES"
 
 inputURL="https://weather.gc.ca/data/satellite/goes_wcan_visible_100.jpg"
@@ -150,27 +148,15 @@ def UTime():
 
 
 
-def pullInfo():    
+def pullInfo(url):     
+    try:        
+        wget.download(url)
+    except:
+        print("Invalid URL: {}".format(url))
 
-    contents = six.moves.urllib.request.urlopen(ip).read().decode(encoding="utf-8")
-
-    contents=contents.replace("\n",",")
-
-    contents=contents.split(",")
-
-    _,year,month,day,hour,minute,second,_,DOMECondition,_,skyCondition=contents[:11]
-
-    if len(contents)>12:
-
-        cumulus=contents[12]
-
-    else:
-
-        cumulus="Null"
-
-    return year,month,day,hour,minute,second,DOMECondition,skyCondition,cumulus
-
-       
+def getFileType(url): 
+    return url.split(".")[-1]
+    
 
 
 
@@ -213,7 +199,13 @@ def initialSetup():
 
 
 if __name__=="__main__":
-    print(createFileName())
+    #print(createFileName())
+    #url="https://weather.gc.ca/data/satellite/goes_wcan_visible_10099.jpg"
+    #print(getFileType(url))
+    
+    createFolder(*UTime())
+    
+    
 
 
 
