@@ -3,11 +3,12 @@ import sys
 import time
 import datetime
 import wget
+from pytz import timezone
 
 
 '''
 Test Command
-python3 '/home/gza060625/Desktop/AU/logSatelliteWeather/SATWEATHER' "GOES" "https://weather.gc.ca/data/satellite/goes_wcan_visible_100.jpg"
+python3 imgDownloader.py '/home/ebuntu3/Desktop/AU/logSatelliteWeather/SATWEATHER' "GOES" "https://weather.gc.ca/data/satellite/goes_wcan_visible_100.jpg"
 '''
 
 
@@ -21,17 +22,11 @@ configList=[(outputDirectory,"GOES","https://weather.gc.ca/data/satellite/goes_w
 
 
 
-'''
-generate file name
-'''
+
 def createFileName(url):
     return UTimeStr()+getFileType(url)
 
 
-'''
-Create a folder with <year, month, day>
-return a path to the folder created
-'''
 def createFolder(outputPath,siteName,year, month,day):
     
     year=str(year)
@@ -43,12 +38,10 @@ def createFolder(outputPath,siteName,year, month,day):
     os.makedirs(path, exist_ok=True) 
     return path
 
-'''
-Return Current UT time as String
-'''
+
 def UTimeStr():
-    now=datetime.datetime.now()
-    return now.strftime("%m_%d_%Y-%H-%M-%S")
+    now=datetime.datetime.now(timezone('America/Edmonton'))
+    return now.strftime("%Y_%m_%d_%H-%M-%S")
     
 
 '''
