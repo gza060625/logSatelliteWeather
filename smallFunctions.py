@@ -1,6 +1,5 @@
 import os
 import sys
-import wget
 import time
 import datetime
 import wget
@@ -14,19 +13,10 @@ python3 '/home/gza060625/Desktop/AU/logSatelliteWeather/SATWEATHER' "GOES" "http
 
 
 #Constant Data
+outputDirectory='/home/ebuntu3/Desktop/AU/logSatelliteWeather/SATWEATHER'
 
-configList=[('/home/gza060625/Desktop/AU/logSatelliteWeather/SATWEATHER',\
-             "GOES",\
-             
-             
-             
-             
-             "https://weather.gc.ca/data/satellite/goes_wcan_visible_100.jpg"\
-            ),\
-            ('/home/gza060625/Desktop/AU/logSatelliteWeather/SATWEATHER',\
-             "AUGO",\
-             "http://www.cleardarksky.com/c/AUGOABcsk.gif"\
-            ),\
+configList=[(outputDirectory,"GOES","https://weather.gc.ca/data/satellite/goes_wcan_visible_100.jpg"),
+            (outputDirectory,"AUGO","http://www.cleardarksky.com/c/AUGOABcsk.gif")
            ]
 
 
@@ -58,7 +48,7 @@ Return Current UT time as String
 '''
 def UTimeStr():
     now=datetime.datetime.now()
-    return now.strftime("%m_%d_%Y-%H:%M:%S")
+    return now.strftime("%m_%d_%Y-%H-%M-%S")
     
 
 '''
@@ -69,7 +59,7 @@ def UTime():
     return now.year,now.month,now.day
 
 
-def pullInfo(url,filePath):     
+def downloadFile(url,filePath):     
     try:        
         wget.download(url,filePath)
     except:
@@ -83,7 +73,7 @@ def fetchFile(outputPath,siteName,url):
     folderPath=createFolder(outputPath,siteName,*UTime())
     fileName=createFileName(url)
     filePath=os.path.join(folderPath,fileName)    
-    pullInfo(url,filePath)
+    downloadFile(url,filePath)
     
 
 def main():
